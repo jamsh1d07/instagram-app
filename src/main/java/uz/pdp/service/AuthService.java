@@ -63,6 +63,7 @@ public class AuthService implements UserDetailsService {
         //4 xonali
         String code = UUID.randomUUID().toString().substring(0, 5).concat(UUID.randomUUID().toString().substring(0, 5));
 
+        user.setEmailCode(code);
 
         //mail chaqirib xabar jo'natish kerak
         SimpleMailMessage message = new SimpleMailMessage();
@@ -77,13 +78,25 @@ public class AuthService implements UserDetailsService {
         userRepository.save(user);
         return new ApiResponse("Code is sent to your email. Please verify!",true);
     }
-    public ApiResponse verify(String email, String password) {
-        Optional<User> byUserName = userRepository.findByUserName(email);
-        if (!byUserName.isPresent()) return new ApiResponse("Error",false);
+    public ApiResponse verify(String email, String emailCode) {
+//        Optional<User> byUserName = userRepository.findByUserName(email);
+//        if (!byUserName.isPresent()) return new ApiResponse("Error",false);
+//
+//        if (!byUserName.get().getPassword().equals(passwordEncoder.encode(password)))
+//            return new ApiResponse("Confirmation code is wrong",false);
+//        return new ApiResponse("It's a good",true);
 
-        if (!byUserName.get().getPassword().equals(passwordEncoder.encode(password)))
-            return new ApiResponse("Confirmation code is wrong",false);
-        return new ApiResponse("It's a good",true);
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            if (user.getEmailCode().equals(emailCode)){
+                // enabledni true qilamiz
+                user.setActive(true);
+                userRepository.save(user);
+                return new ApiResponse("Successfully verified",true,user);
+            }
+        }
+        return new ApiResponse("Something went wrong",false);
     }
 
 }

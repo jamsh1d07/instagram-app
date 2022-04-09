@@ -1,9 +1,6 @@
 package uz.pdp.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -17,6 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@ToString
 @Table(name = "users")
 public class User implements UserDetails {
 
@@ -35,6 +33,9 @@ public class User implements UserDetails {
 
     @Email
     private String email;
+
+    // emailga kelgan xabar uchun :
+    private String emailCode;
 
     private String bio;
 

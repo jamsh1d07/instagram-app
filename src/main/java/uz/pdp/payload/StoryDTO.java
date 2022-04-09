@@ -22,9 +22,6 @@ public class StoryDTO {
 
     private Integer userId;
 
-
-    private List<Integer> commentIds;
-
     @NotNull(message = "Postda rasm yoki video bo'lishi kerak")
     private Integer attachmentId;
 
