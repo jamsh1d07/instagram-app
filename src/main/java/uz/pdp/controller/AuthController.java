@@ -55,6 +55,7 @@ public class AuthController {
     public HttpEntity<?> verify(@RequestParam String email, @RequestParam String code) {
 
         ApiResponse response = authService.verify(email, code);
+
         return ResponseEntity.status(response.isSuccess()?
                 HttpStatus.OK:HttpStatus.CONFLICT).body(response);
     }
