@@ -52,9 +52,9 @@ public class AuthController {
                 HttpStatus.ACCEPTED:HttpStatus.CONFLICT).body(response);
     }
     @GetMapping("/verifyEmail")
-    public HttpEntity<?> verify(@RequestParam String email, @RequestParam String code, @RequestBody String password) {
+    public HttpEntity<?> verify(@RequestParam String email, @RequestParam String code) {
 
-        ApiResponse response = authService.verify(email, password);
+        ApiResponse response = authService.verify(email, code);
         return ResponseEntity.status(response.isSuccess()?
                 HttpStatus.OK:HttpStatus.CONFLICT).body(response);
     }
